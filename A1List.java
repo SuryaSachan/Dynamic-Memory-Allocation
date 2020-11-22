@@ -88,6 +88,7 @@ public class A1List extends List {
                 current=current.getNext();
             }
             //towards front
+            current=this;
             while(current.prev!=null){
                 if(current.key==d.key && current.address==d.address && current.size==d.size){
                     current.prev.next=current.next;
@@ -166,23 +167,38 @@ public class A1List extends List {
         A1List temp,head;
         temp=this;
         head=this.getFirst();    
-        //null sentinel for tail
+        //null sentinel for head
         if(head!=null && (head.prev.prev!=null))
             return false;
         //node.next.prev != node
         if(temp!=null){
             while(temp.next!=null){
-                if(temp.next.prev!=temp)
+                if(temp.next.prev!=temp){
+                    System.out.println("faulty list");
                     return false;
+                }
                 temp=temp.next;
             }
         }
         //circular
         temp=head;
         while(temp.next!=null){
-            if(temp.next==head)
+            if(temp.next==head){
+                System.out.println("Circular list");
                 return false;
+            }
             temp=temp.next;
+        }
+        //loop
+        temp=head;
+        head=head.getNext();
+        while(head!=null&&temp.getNext()!=null){
+            if(head==temp){
+                System.out.println("loop found");
+                return false;
+            }
+            head=head.getNext();
+            temp=temp.getNext();
         }
         return true;
     }
